@@ -1,0 +1,66 @@
+<div class="side-bar" [ngClass]="{'collapsed': isCollapsed}">
+  <div class="logo-name-wrapper">
+    <div class="logo-name">
+      <img
+        src="./../../../assets/images/angular-vietnam-transparent.png"
+        class="logo"
+        alt="logo app"
+        srcset=""
+        style="width: 45px; height: 45px"
+      />
+    </div>
+    <div class="logo-name-description-container">
+      <span class="logo-name__name">Design System</span>
+      <span
+        class="logo-name__description"
+        >A design system library</span
+      >
+      
+    </div>
+    <button class="logo-name__button" 
+    (click)="toggleCollapsedNav()">
+      <i
+        class="pi pi-angle-left"
+        id="logo-name__icon"
+      ></i>
+    </button>
+  </div>
+
+  <ul class="features-list">
+    <li class="features-item roadmap">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Roadmap</span>
+      <span class="tooltip">Roadmap</span>
+    </li>
+    <li class="features-item star">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Backlog</span>
+      <span class="tooltip">Backlog</span>
+    </li>
+    <li class="features-item sent">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Boards</span>
+      <span class="tooltip">Boards</span>
+    </li>
+    <li class="features-item trash">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Reports</span>
+      <span class="tooltip">Reports</span>
+    </li>
+    <li class="features-item spam">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Issues</span>
+      <span class="tooltip">Issues</span>
+    </li>
+    <li class="features-item trash">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Code</span>
+      <span class="tooltip">Code</span>
+    </li>
+    <li class="features-item spam">
+      <i class="pi pi-map"></i>
+      <span class="features-item-text">Deployment</span>
+      <span class="tooltip">Deployment</span>
+    </li>
+  </ul>
+</div>
