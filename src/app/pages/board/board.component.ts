@@ -1,9 +1,12 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
   todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
@@ -11,8 +14,8 @@ export class BoardComponent implements OnInit {
   done = ['Take a shower', 'Check e-mail', 'Walk dog'];
 
   xyz = ['A', 'B', 'C'];
-  constructor() { }
-  
+  constructor() {}
+
   ngOnInit() {
     console.log(this.todo);
     console.log(this.done);
@@ -20,20 +23,23 @@ export class BoardComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     }
 
     console.log(this.todo);
     console.log(this.done);
   }
-  
 }
 export enum Type {
   TODO = 'To Do',
@@ -41,5 +47,5 @@ export enum Type {
   DONE = 'Done',
   IN_PROGRESS = 'In Progress',
   QA = 'QA',
-  BLOCKED = 'BLOCKED'
+  BLOCKED = 'BLOCKED',
 }

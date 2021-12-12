@@ -1,52 +1,61 @@
 <app-left-nav></app-left-nav>
 <div class="content-section implementation board">
   <div class="board-container">
-    <div class="todo-container">
-      <div
-        cdkDropList
-        #todoList="cdkDropList"
-        [cdkDropListData]="todo"
-        [cdkDropListConnectedTo]="[doneList, xyzList]"
-        class="status-list example-list"
-        (cdkDropListDropped)="drop($event)"
-      >
-        <div class="example-box" *ngFor="let item of todo" cdkDrag>
-          <p-card>
-            <p style="color: white">{{item}}</p>
-          </p-card>
+    <div class="board-middle-container">
+      <div class="todo-container">
+        <div class="status-list">
+          <div class="status-text">
+            ToDo
+            <span class="lowercase-text"> 3 </span>
+          </div>
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="todo"
+            [cdkDropListConnectedTo]="[doneList, xyzList]"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div class="example-box" *ngFor="let item of todo" cdkDrag>
+              <p-card>
+                <p style="color: white">{{ item }}</p>
+              </p-card>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="todo-container 3">
-      <div 
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList, xyzList]"
-      class=" status-list example-list"
-      (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of done" cdkDrag>
-          <p-card>
-              <p style="color: white">{{item}}</p>
-          </p-card>
-        </div>
-      </div>
-    </div>
-
-    <div class="todo-container 3">
-        <div 
-        cdkDropList
-        #xyzList="cdkDropList"
-        [cdkDropListData]="xyz"
-        [cdkDropListConnectedTo]="[todoList, doneList]"
-        class=" status-list example-list"
-        (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let item of xyz" cdkDrag>
+      <div class="todo-container 3">
+        <div
+          cdkDropList
+          #doneList="cdkDropList"
+          [cdkDropListData]="done"
+          [cdkDropListConnectedTo]="[todoList, xyzList]"
+          class="status-list example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let item of done" cdkDrag>
             <p-card>
-                <p style="color: white">{{item}}</p>
+              <p style="color: white">{{ item }}</p>
             </p-card>
           </div>
         </div>
       </div>
+
+      <div class="todo-container 3">
+        <div
+          cdkDropList
+          #xyzList="cdkDropList"
+          [cdkDropListData]="xyz"
+          [cdkDropListConnectedTo]="[todoList, doneList]"
+          class="status-list example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="example-box" *ngFor="let item of xyz" cdkDrag>
+            <p-card>
+              <p style="color: white">{{ item }}</p>
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
