@@ -1,5 +1,10 @@
 <app-left-nav></app-left-nav>
+
 <div class="content-section implementation board">
+
+  <p-breadcrumb [model]="items"></p-breadcrumb>
+  <app-header [title]="title"></app-header>
+  <input type="text" #input />
   <div class="board-container">
     <div class="board-middle-container">
       <!---Todo---->
@@ -16,9 +21,7 @@
             [cdkDropListData]="toDo"
             [cdkDropListConnectedTo]="[
               inProgressList,
-              blockedList,
               functionalReviewList,
-              qaList,
               doneList
             ]"
             (cdkDropListDropped)="drop($event)"
@@ -55,9 +58,7 @@
             [cdkDropListData]="inProgress"
             [cdkDropListConnectedTo]="[
               todoList,
-              blockedList,
               functionalReviewList,
-              qaList,
               doneList
             ]"
             (cdkDropListDropped)="drop($event)"
@@ -95,8 +96,6 @@
             [cdkDropListConnectedTo]="[
               todoList,
               inProgressList,
-              blockedList,
-              qaList,
               doneList
             ]"
             (cdkDropListDropped)="drop($event)"
@@ -124,7 +123,7 @@
       </div>
 
       <!---Blocked-->
-      <div class="todo-container">
+      <!-- <div class="todo-container">
         <div class="status-list">
           <div class="status-text">
             Blocked
@@ -160,10 +159,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!---QA-->
-      <div class="todo-container">
+      <!-- <div class="todo-container">
         <div class="status-list">
           <div class="status-text">
             QA
@@ -184,9 +183,6 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of qa" cdkDrag>
-              <!-- <p-card>
-                  <p style="color: white">p</p>
-                </p-card> -->
               <div class="issue-wrap">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
@@ -202,7 +198,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="todo-container">
         <div class="status-list">
@@ -219,15 +215,10 @@
               todoList,
               inProgressList,
               functionalReviewList,
-              blockedList,
-              qaList
             ]"
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of done" cdkDrag>
-              <!-- <p-card>
-                  <p style="color: white">p</p>
-                </p-card> -->
               <div class="issue-wrap">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>

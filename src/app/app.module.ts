@@ -12,20 +12,22 @@ import { HeaderComponent } from './layout/header/header.component';
 import { BoardComponent } from './pages/board/board.component';
 
 import {CardModule} from 'primeng/card';
-
-import {TableModule} from 'primeng/table';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {MenuItem} from 'primeng/api';
+
 @NgModule({
   declarations: [
     AppComponent,
     LeftNavComponent,
     HeaderComponent,
     BoardComponent,
+
   ],
   imports: [
     CardModule,
     DragDropModule,
-    TableModule,
+    BreadcrumbModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,

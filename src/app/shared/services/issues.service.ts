@@ -34,4 +34,12 @@ export class IssuesService {
   public editIssues(id: string, body:Issue){
     return this.http.post(this.baseUrl+`Issue/${id}`,body,this.requestOptions);
   }
+
+  public getStartingWithIssues(id: string): Observable<Issue[]>{
+    return this.http.get<Issue[]>(this.baseUrl+`Issue/startsWith`,{
+      params: {
+        data: id
+      }
+    } )
+  }
 }
