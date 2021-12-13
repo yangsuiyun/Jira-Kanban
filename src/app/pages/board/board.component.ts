@@ -13,25 +13,30 @@ import { Issue } from 'src/assets/interfaces/Project';
 export class BoardComponent implements OnInit {
   public toDo: Issue[] = [];
   public functionalReview: Issue[] = [];
-  public inProgress : Issue[] = [];
+  public inProgress: Issue[] = [];
   public qa: Issue[] = [];
   public blocked: Issue[] = [];
   public done: Issue[] = [];
   constructor(private issueService: IssuesService) {}
 
   ngOnInit() {
-    this.issueService.getIssues().subscribe((res)=>{
-      this.toDo = res.filter((result)=> result.status === StoryType.TODO);
-      this.functionalReview = res.filter((result)=> result.status === StoryType.FUNCTIONAL_REVIEW);
-      this.inProgress = res.filter((result)=> result.status === StoryType.IN_PROGRESS);
-      this.qa = res.filter((result)=> result.status === StoryType.QA);
-      this.blocked = res.filter((result)=> result.status === StoryType.BLOCKED);
-      this.done = res.filter((result)=> result.status === StoryType.DONE );
-    })
+    this.issueService.getIssues().subscribe((res) => {
+      this.toDo = res.filter((result) => result.status === StoryType.TODO);
+      this.functionalReview = res.filter(
+        (result) => result.status === StoryType.FUNCTIONAL_REVIEW
+      );
+      this.inProgress = res.filter(
+        (result) => result.status === StoryType.IN_PROGRESS
+      );
+      this.qa = res.filter((result) => result.status === StoryType.QA);
+      this.blocked = res.filter(
+        (result) => result.status === StoryType.BLOCKED
+      );
+      this.done = res.filter((result) => result.status === StoryType.DONE);
+    });
   }
 
   drop(event: any) {
-    debugger;
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -39,8 +44,36 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
     } else {
-      debugger;
       console.log(event);
+      console.log(event.previousContainer.data);
+      console.log(event.previousContainer.data[event.previousIndex]);
+      let x = event.previousContainer.data[event.previousIndex];
+      switch (event.container.id) {
+        case StoryType.TODO: {
+          x.status = StoryType.TODO;
+          break;
+        }
+        case StoryType.DONE: {
+          x.status = StoryType.DONE;
+          break;
+        }
+        case StoryType.FUNCTIONAL_REVIEW: {
+          x.status = StoryType.FUNCTIONAL_REVIEW;
+          break;
+        }
+        case StoryType.IN_PROGRESS: {
+          x.status = StoryType.IN_PROGRESS;
+          break;
+        }
+        case StoryType.QA: {
+          x.status = StoryType.QA;
+          break;
+        }
+        case StoryType.BLOCKED: {
+          x.status = StoryType.BLOCKED;
+          break;
+        }
+      }
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -48,15 +81,10 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
 
-
-      console.log(event.previousContainer.data);
-      console.log(event.container.data);
-      console.log(event.previousIndex);
-      console.log(event.currentIndex);
+      this.issueService.editIssues(x.id, x).subscribe((res) => {
+        console.log(res);
+      });
     }
-
-    // console.log(this.todo);
-    // console.log(this.done);
   }
 }
 export enum StoryType {

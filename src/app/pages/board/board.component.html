@@ -10,6 +10,7 @@
             <span class="lowercase-text"> 3 </span>
           </div>
           <div
+            id="To Do"
             cdkDropList
             #todoList="cdkDropList"
             [cdkDropListData]="toDo"
@@ -23,9 +24,18 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of toDo" cdkDrag>
-              <p-card>
-                <p style="color: white">p</p>
-              </p-card>
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -39,6 +49,7 @@
             <span class="lowercase-text"> 3 </span>
           </div>
           <div
+            id="In Progress"
             cdkDropList
             #inProgressList="cdkDropList"
             [cdkDropListData]="inProgress"
@@ -52,9 +63,18 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of inProgress" cdkDrag>
-              <p-card>
-                <p style="color: white">In Progress</p>
-              </p-card>
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -69,6 +89,7 @@
           </div>
           <div
             cdkDropList
+            id="Functional Review"
             #functionalReviewList="cdkDropList"
             [cdkDropListData]="functionalReview"
             [cdkDropListConnectedTo]="[
@@ -85,9 +106,18 @@
               *ngFor="let item of functionalReview"
               cdkDrag
             >
-              <p-card>
-                <p style="color: white">Functional review</p>
-              </p-card>
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -101,6 +131,7 @@
             <span class="lowercase-text"> 3 </span>
           </div>
           <div
+            id="BLOCKED"
             cdkDropList
             #blockedList="cdkDropList"
             [cdkDropListData]="blocked"
@@ -114,9 +145,18 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of blocked" cdkDrag>
-              <p-card>
-                <p style="color: white">{{ item }}</p>
-              </p-card>
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -130,6 +170,7 @@
             <span class="lowercase-text"> 3 </span>
           </div>
           <div
+            id="QA"
             cdkDropList
             #qaList="cdkDropList"
             [cdkDropListData]="qa"
@@ -143,9 +184,21 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of qa" cdkDrag>
-              <p-card>
-                <p style="color: white">{{ item }}</p>
-              </p-card>
+              <!-- <p-card>
+                  <p style="color: white">p</p>
+                </p-card> -->
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,6 +211,7 @@
             <span class="lowercase-text"> 3 </span>
           </div>
           <div
+            id="Done"
             cdkDropList
             #doneList="cdkDropList"
             [cdkDropListData]="done"
@@ -171,9 +225,21 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of done" cdkDrag>
-              <p-card>
-                <p style="color: white">Done</p>
-              </p-card>
+              <!-- <p-card>
+                  <p style="color: white">p</p>
+                </p-card> -->
+              <div class="issue-wrap">
+                <div class="issue">
+                  <p class="text-dark">{{ item.title }}</p>
+                  <div class="flex-items">
+                    <div class="avatar"></div>
+                    <span class="story-type"
+                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                    >
+                  </div>
+                  <div class="flex-items" style="margin-left: unset"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

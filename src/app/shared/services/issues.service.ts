@@ -31,4 +31,7 @@ export class IssuesService {
     return this.http.get<Issue[]>(this.baseUrl+'Issue/', this.requestOptions);
   }
   
+  public editIssues(id: string, body:Issue){
+    return this.http.post(this.baseUrl+`Issue/${id}`,body,this.requestOptions);
+  }
 }
