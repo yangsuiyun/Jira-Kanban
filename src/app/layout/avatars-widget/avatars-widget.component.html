@@ -1,0 +1,83 @@
+<div class="ar-avatars-widget">
+  <ng-container *ngFor="let user of visibleUsers">
+    <div
+      class="ar-avatar"
+      [ngClass]="{
+        'ar-image': !!user.avatarUrl,
+        'ar-text': !user.avatarUrl,
+        'ar-selected': isUserSelected(user)
+      }"
+      (click)="toggleUserSelection(user)"
+    >
+      <ng-container
+        *ngIf="user.avatarUrl; then imageAvatar; else initialsAvatar"
+      >
+      </ng-container>
+      <ng-template #imageAvatar>
+        <span
+          role="img"
+          [attr.aria-label]="user.fullName"
+          [ngStyle]="{
+            'background-image': 'url(' + user.avatarUrl + ')'
+          }"
+          [pTooltip]="user.firstName + ' ' + user.lastName"
+          tooltipPosition="bottom"
+          tooltipStyleClass="avatar-tooltip"
+        >
+          <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+        </span>
+      </ng-template>
+      <ng-template #initialsAvatar>
+        <span
+          [pTooltip]="user.firstName + '' + user.lastName"
+          tooltipPosition="bottom"
+          tooltipStyleClass="avatar-tooltip"
+          >{{ getUserInitials(user) }}
+          <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+        </span>
+      </ng-template>
+    </div>
+  </ng-container>
+  <div
+    *ngIf="nonVisibleAvatarCount > 0"
+    class="ar-avatar ar-text non-visible-count"
+    [ngClass]="{ 'ar-selection': checkNonVisibleUserSelection() }"
+  >
+    <span (click)="op.toggle($event)">
+      {{ "+" }} {{ nonVisibleAvatarCount }}
+    </span>
+  </div>
+  <p-overlayPanel #op class="avatar-overlay" [showCloseIcon]="false">
+    <ul>
+      <li
+        class="avatar-list"
+        *ngFor="let user of nonVisibleUsers; index as userIndex"
+        (click)="selectNonVisibleUser($event, userIndex)"
+      >
+        <div class="overlay-dropdown">
+          <span
+            *ngIf="user.avatarUrl"
+            class="ar-avatar-image"
+            role="img"
+            [attr.aria-label]="user.fullName"
+            [ngStyle]="{
+              'backgound-image': 'url(' + user.avatarUrl + ')'
+            }"
+          >
+            <div class="inner">
+              <i class="pi pi-tick-m tick-icon"> </i>
+            </div>
+          </span>
+
+          <span *ngIf="!user.avatarUrl" class="ar-avatar-text">
+            {{ getUserInitials(user) }}
+            <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+          </span>
+        </div>
+        <div class="user-name">
+          <p>{{ user.firstName + " " + user.lastName }}</p>
+        </div>
+      </li>
+    </ul>
+  </p-overlayPanel>
+</div>

@@ -15,23 +15,27 @@ import {CardModule} from 'primeng/card';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {MenuItem} from 'primeng/api';
-
+import { AvatarsWidgetComponent } from './layout/avatars-widget/avatars-widget.component';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 @NgModule({
   declarations: [
     AppComponent,
     LeftNavComponent,
     HeaderComponent,
     BoardComponent,
+    AvatarsWidgetComponent,
 
   ],
   imports: [
     CardModule,
     DragDropModule,
     BreadcrumbModule,
+    OverlayPanelModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
