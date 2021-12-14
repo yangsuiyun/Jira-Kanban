@@ -24,7 +24,7 @@
           tooltipPosition="bottom"
           tooltipStyleClass="avatar-tooltip"
         >
-          <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+          <div class="inner"><i class="pi pi-check tick-icon"></i></div>
         </span>
       </ng-template>
       <ng-template #initialsAvatar>
@@ -33,7 +33,7 @@
           tooltipPosition="bottom"
           tooltipStyleClass="avatar-tooltip"
           >{{ getUserInitials(user) }}
-          <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+          <div class="inner"><i class="pi pi-check tick-icon"></i></div>
         </span>
       </ng-template>
     </div>
@@ -65,13 +65,13 @@
             }"
           >
             <div class="inner">
-              <i class="pi pi-tick-m tick-icon"> </i>
+              <i class="pi pi-check tick-icon"> </i>
             </div>
           </span>
 
           <span *ngIf="!user.avatarUrl" class="ar-avatar-text">
             {{ getUserInitials(user) }}
-            <div class="inner"><i class="pi pi-tick-m tick-icon"></i></div>
+            <div class="inner"><i class="pi pi-check tick-icon"></i></div>
           </span>
         </div>
         <div class="user-name">

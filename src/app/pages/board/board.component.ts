@@ -15,6 +15,7 @@ import {
   Subject,
   tap,
 } from 'rxjs';
+import { User } from 'src/app/shared/interfacrs/user.model';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -32,6 +33,10 @@ export class BoardComponent implements OnInit {
   public qa: Issue[] = [];
   public blocked: Issue[] = [];
   public done: Issue[] = [];
+  public userAvatarList: User[] = [];
+  public selectedUsers: User[] = [];
+
+  public totalArr: Issue[] = [];
 
   public terms$ = new Subject<string>();
 
@@ -46,6 +51,65 @@ export class BoardComponent implements OnInit {
     this.issueService.getIssues().subscribe((res) => {
       this.generateList(res);
     });
+    this.issueService.getMember().subscribe((res) => {
+      res.forEach((element, index) => {
+        let n: string[] = [];
+        n = element.name.split(' ');
+
+        this.userAvatarList.push({
+          id: element.id,
+          firstName: n[0],
+          lastName: n[n.length - 1],
+          avatarUrl: this.appendUrl(index),
+        });
+      });
+    });
+  }
+
+  public appendUrl(index: number) : string{
+    if (index === 0) {
+      return 'assets/images/avatar1.png';
+    }
+    if (index === 1 ) {
+      return 'assets/images/avatar2.png';
+    }
+    if (index % 3 === 0) {
+      return 'assets/images/avatar3.png';
+    }
+    if (index % 4 === 0 && index>2) {
+      return 'assets/images/avatar4.png';
+    }
+    else{
+      return 'assets/images/avatar4.png';
+    }
+  }
+
+  public useAvatarSelectionFilter(event: any) {
+    console.log(event);
+    let tempArr: User[]= [];
+    event.forEach((ele: User) => {
+      let a = ele as any;
+      tempArr.push(a.firstName);
+    });
+    this.issueService.getSpecificMember(tempArr).subscribe((res)=>{
+      debugger;
+      console.log(res);
+      /**
+       * Getting the correct data;
+       */
+      let finalNames = []
+      for(let i=0;i<res.length;i++){
+        finalNames.push(res[i].name);
+      }
+      let fList: Issue[]= [];
+      for(let j =0; j<finalNames.length;j++){
+        let element = finalNames[j];
+        fList = this.totalArr.filter((x)=> x.assignee.includes(element))
+        
+      }
+      this.generateList(fList);
+      // this.generateList(res);
+    })
   }
 
   public generateList(res: Issue[]) {
@@ -70,10 +134,10 @@ export class BoardComponent implements OnInit {
         debounceTime(400),
         distinctUntilChanged(),
         tap((text) => {
-          console.log(this.input.nativeElement.value);
           this.issueService
             .getStartingWithIssues(this.input.nativeElement.value)
             .subscribe((res) => {
+              this.totalArr= res;
               this.generateList(res);
             });
           // Backend call for getting issues that starts with a particular word.
@@ -125,7 +189,7 @@ export class BoardComponent implements OnInit {
       );
 
       this.issueService.editIssues(x.id, x).subscribe((res) => {
-        console.log(res);
+        // console.log(res);
       });
     }
   }

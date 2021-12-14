@@ -1,9 +1,14 @@
 <app-left-nav></app-left-nav>
 
 <div class="content-section implementation board">
-
   <p-breadcrumb [model]="items"></p-breadcrumb>
   <app-header [title]="title"></app-header>
+  <app-avatars-widget
+    class="avatar-tick-icon"
+    [users]="userAvatarList"
+    [(selection)]="selectedUsers"
+    (selectionChange)="useAvatarSelectionFilter($event)"
+  ></app-avatars-widget>
   <input type="text" #input />
   <div class="board-container">
     <div class="board-middle-container">
@@ -93,11 +98,7 @@
             id="Functional Review"
             #functionalReviewList="cdkDropList"
             [cdkDropListData]="functionalReview"
-            [cdkDropListConnectedTo]="[
-              todoList,
-              inProgressList,
-              doneList
-            ]"
+            [cdkDropListConnectedTo]="[todoList, inProgressList, doneList]"
             (cdkDropListDropped)="drop($event)"
           >
             <div
@@ -214,7 +215,7 @@
             [cdkDropListConnectedTo]="[
               todoList,
               inProgressList,
-              functionalReviewList,
+              functionalReviewList
             ]"
             (cdkDropListDropped)="drop($event)"
           >
