@@ -19,6 +19,8 @@ import { AvatarsWidgetComponent } from './layout/avatars-widget/avatars-widget.c
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,10 +38,11 @@ import {ButtonModule} from 'primeng/button';
     DialogModule,
     BrowserModule,
     ButtonModule,
+    InputTextareaModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-
+    FormsModule
 
   ],
   providers: [],

@@ -3,6 +3,17 @@
 <div class="content-section implementation board">
   <p-breadcrumb [model]="items"></p-breadcrumb>
   <app-header [title]="title"></app-header>
+  <p>
+    <span class="story">
+      <i class="pi pi-bookmark-fill"></i>
+    </span>
+    <span class="bug">
+      <i class="pi pi-circle-fill"></i>
+    </span>
+    <span class="task">
+      <i class="pi pi-check"></i>
+    </span>
+  </p>
   <app-avatars-widget
     class="avatar-tick-icon"
     [users]="userAvatarList"
@@ -249,19 +260,65 @@
     header="Header"
     [(visible)]="displayModal"
     [modal]="true"
-    [style]="{ width: '50vw' }"
+    [style]="{ width: '50vw', position: 'absolute' }"
     [draggable]="false"
     [resizable]="false"
   >
-    <p class="p-m-0">
-    </p>
-    <div class="issue-detail">
-      <div class="full-width">
-        <div class="text-dark">
-
+    <ng-template pTemplate="header">
+      <div class="issue-detail">
+        <div class="full-width">
+          <div class="text-dark">
+            <div class="issue-type">
+              <div class="type-dropdown">
+                <div class="dropdown-trigger">
+                  <span class="story">
+                    <i class="pi pi-bookmark-fill"></i>
+                  </span>
+                  <span class="with-padding">Story-2021</span>
+                  <span class="feedback-delete">
+                    <span class="delete">
+                      <i class="pi pi-trash"></i>
+                    </span>
+                    <a
+                      target="_blank"
+                      href="https://github.com/officialbidisha"
+                      style="display: inline"
+                    >
+                      <span class="feedback">
+                        <i class="pi pi-github"></i>
+                        <span class="with-padding">Give Feedback</span>
+                      </span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <h2>Angular Spotify</h2>
       </div>
+    </ng-template>
+
+    <p>Description</p>
+    <textarea
+      style="min-height: 300px; text-overflow: ellipsis"
+      [rows]="5"
+      [cols]="30"
+      pInputTextarea
+      [(ngModel)]="property"
+      [autoResize]="autoResize"
+    ></textarea>
+
+    <div>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Save"
+        class="p-button-raised"
+      ></button>
     </div>
+
     <ng-template pTemplate="footer">
       <p-button
         icon="pi pi-check"

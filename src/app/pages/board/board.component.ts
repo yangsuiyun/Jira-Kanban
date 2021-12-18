@@ -22,6 +22,12 @@ import { User } from 'src/app/shared/interfacrs/user.model';
 })
 export class BoardComponent implements OnInit {
   public title = 'Design System';
+
+  public autoResize: boolean = true;
+
+  public property =
+    "I wanted to introduce you my latest application: Angular Spotify.It is a simple Spotify client built with Angular 11, Nx workspace, ngrx, TailwindCSS and ng-zorro.Check out the live application -> https://spotify.trungk18.com.Source code: https://github.com/trungk18/angular-spotify.Spotify premium is required for the Web Playback SDK to play music. If you are using a free account, you can still browse the app, but it couldn't play the music. Sorry about that";
+
   @ViewChild('input') input: ElementRef = {} as ElementRef;
   public items: MenuItem[] = [];
 
@@ -54,7 +60,7 @@ export class BoardComponent implements OnInit {
       { label: 'Design System' },
     ];
     this.issueService.getIssues().subscribe((res) => {
-      this.totalArr= res;
+      this.totalArr = res;
       this.generateList(res);
     });
     this.issueService.getMember().subscribe((res) => {
@@ -72,53 +78,52 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  public openDialog(){
+  public openDialog() {
     this.displayModal = true;
   }
 
-  public appendUrl(index: number) : string{
+  public appendUrl(index: number): string {
     if (index === 0) {
       return 'assets/images/avatar1.png';
     }
-    if (index === 1 ) {
+    if (index === 1) {
       return 'assets/images/avatar2.png';
     }
     if (index % 3 === 0) {
       return 'assets/images/avatar3.png';
     }
-    if (index % 4 === 0 && index>2) {
+    if (index % 4 === 0 && index > 2) {
       return 'assets/images/avatar4.png';
-    }
-    else{
+    } else {
       return 'assets/images/avatar4.png';
     }
   }
 
   public useAvatarSelectionFilter(event: any) {
-    let tempArr: User[]= [];
+    let tempArr: User[] = [];
     event.forEach((ele: User) => {
       let a = ele as any;
       tempArr.push(a.firstName);
     });
-    this.issueService.getSpecificMember(tempArr).subscribe((res)=>{
+    this.issueService.getSpecificMember(tempArr).subscribe((res) => {
       /**
        * Getting the correct data;
        */
-      let finalNames = []
-      for(let i=0;i<res.length;i++){
+      let finalNames = [];
+      for (let i = 0; i < res.length; i++) {
         finalNames.push(res[i].name);
       }
-      let fList: Issue[]= [];
-      for(let j =0; j<finalNames.length;j++){
+      let fList: Issue[] = [];
+      for (let j = 0; j < finalNames.length; j++) {
         let element = finalNames[j];
-        this.totalArr.forEach((arrElement)=>{
-          if(arrElement.assignee.includes(element)){
+        this.totalArr.forEach((arrElement) => {
+          if (arrElement.assignee.includes(element)) {
             fList.push(arrElement);
           }
-        })
+        });
       }
       this.generateList(fList);
-    })
+    });
   }
 
   public generateList(res: Issue[]) {
@@ -146,7 +151,7 @@ export class BoardComponent implements OnInit {
           this.issueService
             .getStartingWithIssues(this.input.nativeElement.value)
             .subscribe((res) => {
-              this.totalArr= res;
+              this.totalArr = res;
               this.generateList(res);
             });
           // Backend call for getting issues that starts with a particular word.
@@ -197,8 +202,7 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
 
-      this.issueService.editIssues(x.id, x).subscribe((res) => {
-      });
+      this.issueService.editIssues(x.id, x).subscribe((res) => {});
     }
   }
 }
