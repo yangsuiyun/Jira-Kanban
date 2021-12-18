@@ -32,7 +32,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of toDo" cdkDrag>
-              <div class="issue-wrap">
+              <div class="issue-wrap" (click)="openDialog()">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -69,7 +69,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of inProgress" cdkDrag>
-              <div class="issue-wrap">
+              <div class="issue-wrap" (click)="openDialog()">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -106,7 +106,7 @@
               *ngFor="let item of functionalReview"
               cdkDrag
             >
-              <div class="issue-wrap">
+              <div class="issue-wrap" (click)="openDialog()">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -220,7 +220,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of done" cdkDrag>
-              <div class="issue-wrap">
+              <div class="issue-wrap" (click)="openDialog()">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -238,4 +238,37 @@
       </div>
     </div>
   </div>
+
+  <!---Dialog-->
+  <!-- <p-button
+    (click)="showModalDialog()"
+    icon="pi pi-external-link"
+    label="Show"
+  ></p-button> -->
+  <p-dialog
+    header="Header"
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p class="p-m-0">
+    </p>
+    <div class="issue-detail">
+      <div class="full-width">
+        <div class="text-dark">
+
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button
+        icon="pi pi-check"
+        (click)="displayModal = false"
+        label="Ok"
+        styleClass="p-button-text"
+      ></p-button>
+    </ng-template>
+  </p-dialog>
 </div>

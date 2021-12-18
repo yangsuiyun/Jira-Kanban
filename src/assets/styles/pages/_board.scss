@@ -1,6 +1,11 @@
 .board {
   padding-left: 280px;
   height: auto;
+  .p-breadcrumb.p-component{
+    background: #17171e;
+    border: none;
+    padding-left: 0;
+  }
   .example-box {
     margin-bottom: 5px;
     .issue-wrap{
@@ -58,7 +63,7 @@
         flex-shrink: 0;
         width: calc(100% / 4 - 8px);
         min-height: 400px;
-        min-width: 200px;
+        min-width: 237px;
         .status-list {
           .status-text {
             .lowercase-text {
@@ -91,6 +96,13 @@
           padding-bottom: 20px;
         }
       }
+    }
+  }
+  .issue-detail{
+    .full-width{
+      width: 100%;
+      padding-left: 1em;
+      height: 100%;
     }
   }
 }

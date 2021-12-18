@@ -47,12 +47,10 @@ export class IssuesService {
   }
 
   public getMember(): Observable<User[]> {
-    console.log(this.baseUrl+'Member/');
     return this.http.get<User[]>(this.baseUrl + 'Member/', this.requestOptions);
   }
 
   public getSpecificMember(userNameList:any):Observable<User[]>{
-    debugger;
     return this.http.get<User[]>(this.baseUrl+'Member/includes', {
       params:{
         data:userNameList

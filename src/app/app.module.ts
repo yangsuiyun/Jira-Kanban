@@ -17,6 +17,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {MenuItem} from 'primeng/api';
 import { AvatarsWidgetComponent } from './layout/avatars-widget/avatars-widget.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,10 +33,13 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     DragDropModule,
     BreadcrumbModule,
     OverlayPanelModule,
+    DialogModule,
     BrowserModule,
+    ButtonModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+
 
   ],
   providers: [],

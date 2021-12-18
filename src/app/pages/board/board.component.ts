@@ -40,6 +40,11 @@ export class BoardComponent implements OnInit {
 
   public terms$ = new Subject<string>();
 
+  /**
+   * Dialog
+   */
+  public displayModal: boolean = false;
+
   constructor(private issueService: IssuesService) {}
 
   ngOnInit() {
@@ -49,6 +54,7 @@ export class BoardComponent implements OnInit {
       { label: 'Design System' },
     ];
     this.issueService.getIssues().subscribe((res) => {
+      this.totalArr= res;
       this.generateList(res);
     });
     this.issueService.getMember().subscribe((res) => {
@@ -64,6 +70,10 @@ export class BoardComponent implements OnInit {
         });
       });
     });
+  }
+
+  public openDialog(){
+    this.displayModal = true;
   }
 
   public appendUrl(index: number) : string{
@@ -85,15 +95,12 @@ export class BoardComponent implements OnInit {
   }
 
   public useAvatarSelectionFilter(event: any) {
-    console.log(event);
     let tempArr: User[]= [];
     event.forEach((ele: User) => {
       let a = ele as any;
       tempArr.push(a.firstName);
     });
     this.issueService.getSpecificMember(tempArr).subscribe((res)=>{
-      debugger;
-      console.log(res);
       /**
        * Getting the correct data;
        */
@@ -104,11 +111,13 @@ export class BoardComponent implements OnInit {
       let fList: Issue[]= [];
       for(let j =0; j<finalNames.length;j++){
         let element = finalNames[j];
-        fList = this.totalArr.filter((x)=> x.assignee.includes(element))
-        
+        this.totalArr.forEach((arrElement)=>{
+          if(arrElement.assignee.includes(element)){
+            fList.push(arrElement);
+          }
+        })
       }
       this.generateList(fList);
-      // this.generateList(res);
     })
   }
 
@@ -189,7 +198,6 @@ export class BoardComponent implements OnInit {
       );
 
       this.issueService.editIssues(x.id, x).subscribe((res) => {
-        // console.log(res);
       });
     }
   }
