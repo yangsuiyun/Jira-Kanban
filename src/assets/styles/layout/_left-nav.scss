@@ -79,6 +79,7 @@
       color: #b5b5be;
       cursor: pointer;
       transition: 0.5s ease;
+      text-decoration: none;
     }
     .features-item::before {
       transition: 0.5s ease;
@@ -98,10 +99,21 @@
       transition: 0.5s ease;
     }
 
+
+
     .features-item:hover::before,
     .feature-item:active::before {
       opacity: 1;
       visibility: unset;
+    }
+
+    .features-item.active{
+      color: #fafafb;
+      transition: 0.5s ease;
+      &::before{
+        opacity: 1;
+        visibility: unset;
+      }
     }
 
     .features-item-icon {
