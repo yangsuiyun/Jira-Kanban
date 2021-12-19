@@ -1,12 +1,13 @@
-import { StoryType } from "src/app/pages/board/board.component";
+import { StoryStatus as StoryStatus, StoryType } from "src/app/pages/board/board.component";
 
 export interface Issue{
     id: string;
     projectname:string;
-    type: StoryType;
+    status: StoryStatus;
     assignee: string;
     title: string;
     summary: string;
-    status: string;
+    type: StoryType;
     storypoint: number;
+    priority: string;
 }

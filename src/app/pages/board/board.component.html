@@ -1,26 +1,18 @@
-<app-left-nav></app-left-nav>
+<app-left-nav (newEvent)="updateStyleForNav($event)"></app-left-nav>
 
-<div class="content-section implementation board">
+<div
+  class="content-section implementation board"
+  [ngClass]="{ collapsed: isCollapsed == true }"
+>
   <p-breadcrumb [model]="items"></p-breadcrumb>
   <app-header [title]="title"></app-header>
-  <p>
-    <span class="story">
-      <i class="pi pi-bookmark-fill"></i>
-    </span>
-    <span class="bug">
-      <i class="pi pi-circle-fill"></i>
-    </span>
-    <span class="task">
-      <i class="pi pi-check"></i>
-    </span>
-  </p>
   <app-avatars-widget
     class="avatar-tick-icon"
     [users]="userAvatarList"
     [(selection)]="selectedUsers"
     (selectionChange)="useAvatarSelectionFilter($event)"
   ></app-avatars-widget>
-  <input type="text" #input />
+  <input type="text" #input style="margin: 5px 0" />
   <div class="board-container">
     <div class="board-middle-container">
       <!---Todo---->
@@ -28,7 +20,7 @@
         <div class="status-list">
           <div class="status-text">
             ToDo
-            <span class="lowercase-text"> 3 </span>
+            <span class="lowercase-text"> {{ toDo.length }} </span>
           </div>
           <div
             id="To Do"
@@ -47,10 +39,45 @@
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
-                    <div class="avatar"></div>
+                    <div class="avatar">
+                      <img
+                        src="{{ this.fetchAvatarFromAssignee(item.assignee) }}"
+                      />
+                    </div>
                     <span class="story-type"
-                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                      >{{ item.type }}-{{ item.id.substring(3, 7) }}</span
                     >
+                    <span class="type-priority">
+                      <span
+                        [ngClass]="{
+                          high: getPriority(item.priority) === 'High',
+                          low: getPriority(item.priority) === 'Low',
+                          medium: getPriority(item.priority) === 'Medium'
+                        }"
+                      >
+                        <i class="pi pi-arrow-up"></i>
+                      </span>
+                      <span class="priority">
+                        <span
+                          [ngClass]="{
+                            story: item.type == 'story',
+                            bug: item.type == 'bug',
+                            task: item.type == 'task',
+                            spike: item.type == 'spike'
+                          }"
+                        >
+                          <i
+                            class="pi"
+                            [ngClass]="{
+                              'pi-bookmark-fill': item.type == 'story',
+                              'pi-circle-fill': item.type == 'bug',
+                              'pi-check': item.type == 'task',
+                              'pi-arrow-up-right': item.type == 'spike'
+                            }"
+                          ></i>
+                        </span>
+                      </span>
+                    </span>
                   </div>
                   <div class="flex-items" style="margin-left: unset"></div>
                 </div>
@@ -65,7 +92,7 @@
         <div class="status-list">
           <div class="status-text">
             Dev In Progress
-            <span class="lowercase-text"> 3 </span>
+            <span class="lowercase-text"> {{ inProgress.length }} </span>
           </div>
           <div
             id="In Progress"
@@ -84,10 +111,45 @@
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
-                    <div class="avatar"></div>
+                    <div class="avatar">
+                      <img
+                        src="{{ this.fetchAvatarFromAssignee(item.assignee) }}"
+                      />
+                    </div>
                     <span class="story-type"
-                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                      >{{ item.type }}-{{ item.id.substring(3, 7) }}</span
                     >
+                    <span class="type-priority">
+                      <span
+                        [ngClass]="{
+                          high: getPriority(item.priority) === 'High',
+                          low: getPriority(item.priority) === 'Low',
+                          medium: getPriority(item.priority) === 'Medium'
+                        }"
+                      >
+                        <i class="pi pi-arrow-up"></i>
+                      </span>
+                      <span class="priority">
+                        <span
+                          [ngClass]="{
+                            story: item.type == 'story',
+                            bug: item.type == 'bug',
+                            task: item.type == 'task',
+                            spike: item.type == 'spike'
+                          }"
+                        >
+                          <i
+                            class="pi"
+                            [ngClass]="{
+                              'pi-bookmark-fill': item.type == 'story',
+                              'pi-circle-fill': item.type == 'bug',
+                              'pi-check': item.type == 'task',
+                              'pi-arrow-up-right': item.type == 'spike'
+                            }"
+                          ></i>
+                        </span>
+                      </span>
+                    </span>
                   </div>
                   <div class="flex-items" style="margin-left: unset"></div>
                 </div>
@@ -102,7 +164,7 @@
         <div class="status-list">
           <div class="status-text">
             Functional Review
-            <span class="lowercase-text"> 3 </span>
+            <span class="lowercase-text">{{ functionalReview.length }} </span>
           </div>
           <div
             cdkDropList
@@ -121,10 +183,45 @@
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
-                    <div class="avatar"></div>
+                    <div class="avatar">
+                      <img
+                        src="{{ this.fetchAvatarFromAssignee(item.assignee) }}"
+                      />
+                    </div>
                     <span class="story-type"
-                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                      >{{ item.type }}-{{ item.id.substring(3, 7) }}</span
                     >
+                    <span class="type-priority">
+                      <span
+                        [ngClass]="{
+                          high: getPriority(item.priority) === 'High',
+                          low: getPriority(item.priority) === 'Low',
+                          medium: getPriority(item.priority) === 'Medium'
+                        }"
+                      >
+                        <i class="pi pi-arrow-up"></i>
+                      </span>
+                      <span class="priority">
+                        <span
+                          [ngClass]="{
+                            story: item.type == 'story',
+                            bug: item.type == 'bug',
+                            task: item.type == 'task',
+                            spike: item.type == 'spike'
+                          }"
+                        >
+                          <i
+                            class="pi"
+                            [ngClass]="{
+                              'pi-bookmark-fill': item.type == 'story',
+                              'pi-circle-fill': item.type == 'bug',
+                              'pi-check': item.type == 'task',
+                              'pi-arrow-up-right': item.type == 'spike'
+                            }"
+                          ></i>
+                        </span>
+                      </span>
+                    </span>
                   </div>
                   <div class="flex-items" style="margin-left: unset"></div>
                 </div>
@@ -134,89 +231,11 @@
         </div>
       </div>
 
-      <!---Blocked-->
-      <!-- <div class="todo-container">
-        <div class="status-list">
-          <div class="status-text">
-            Blocked
-            <span class="lowercase-text"> 3 </span>
-          </div>
-          <div
-            id="BLOCKED"
-            cdkDropList
-            #blockedList="cdkDropList"
-            [cdkDropListData]="blocked"
-            [cdkDropListConnectedTo]="[
-              todoList,
-              inProgressList,
-              functionalReviewList,
-              qaList,
-              doneList
-            ]"
-            (cdkDropListDropped)="drop($event)"
-          >
-            <div class="example-box" *ngFor="let item of blocked" cdkDrag>
-              <div class="issue-wrap">
-                <div class="issue">
-                  <p class="text-dark">{{ item.title }}</p>
-                  <div class="flex-items">
-                    <div class="avatar"></div>
-                    <span class="story-type"
-                      >{{ item.type }}-{{ item.id}</span
-                    >
-                  </div>
-                  <div class="flex-items" style="margin-left: unset"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-      <!---QA-->
-      <!-- <div class="todo-container">
-        <div class="status-list">
-          <div class="status-text">
-            QA
-            <span class="lowercase-text"> 3 </span>
-          </div>
-          <div
-            id="QA"
-            cdkDropList
-            #qaList="cdkDropList"
-            [cdkDropListData]="qa"
-            [cdkDropListConnectedTo]="[
-              todoList,
-              inProgressList,
-              functionalReviewList,
-              blockedList,
-              doneList
-            ]"
-            (cdkDropListDropped)="drop($event)"
-          >
-            <div class="example-box" *ngFor="let item of qa" cdkDrag>
-              <div class="issue-wrap">
-                <div class="issue">
-                  <p class="text-dark">{{ item.title }}</p>
-                  <div class="flex-items">
-                    <div class="avatar"></div>
-                    <span class="story-type"
-                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
-                    >
-                  </div>
-                  <div class="flex-items" style="margin-left: unset"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
       <div class="todo-container">
         <div class="status-list">
           <div class="status-text">
             Done
-            <span class="lowercase-text"> 3 </span>
+            <span class="lowercase-text"> {{ done.length }} </span>
           </div>
           <div
             id="Done"
@@ -235,10 +254,45 @@
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
-                    <div class="avatar"></div>
+                    <div class="avatar">
+                      <img
+                        src="{{ this.fetchAvatarFromAssignee(item.assignee) }}"
+                      />
+                    </div>
                     <span class="story-type"
-                      >{{ item.type }}-{{ item.id.substring(0, 3) }}</span
+                      >{{ item.type }}-{{ item.id.substring(3, 7) }}</span
                     >
+                    <span class="type-priority">
+                      <span
+                        [ngClass]="{
+                          high: getPriority(item.priority) === 'High',
+                          low: getPriority(item.priority) === 'Low',
+                          medium: getPriority(item.priority) === 'Medium'
+                        }"
+                      >
+                        <i class="pi pi-arrow-up"></i>
+                      </span>
+                      <span class="priority">
+                        <span
+                          [ngClass]="{
+                            story: item.type == 'story',
+                            bug: item.type == 'bug',
+                            task: item.type == 'task',
+                            spike: item.type == 'spike'
+                          }"
+                        >
+                          <i
+                            class="pi"
+                            [ngClass]="{
+                              'pi-bookmark-fill': item.type == 'story',
+                              'pi-circle-fill': item.type == 'bug',
+                              'pi-check': item.type == 'task',
+                              'pi-arrow-up-right': item.type == 'spike'
+                            }"
+                          ></i>
+                        </span>
+                      </span>
+                    </span>
                   </div>
                   <div class="flex-items" style="margin-left: unset"></div>
                 </div>
@@ -249,13 +303,7 @@
       </div>
     </div>
   </div>
-
-  <!---Dialog-->
-  <!-- <p-button
-    (click)="showModalDialog()"
-    icon="pi pi-external-link"
-    label="Show"
-  ></p-button> -->
+  <!--Dialog-->
   <p-dialog
     header="Header"
     [(visible)]="displayModal"
@@ -300,14 +348,51 @@
     </ng-template>
 
     <p>Description</p>
-    <textarea
-      style="min-height: 300px; text-overflow: ellipsis"
-      [rows]="5"
-      [cols]="30"
-      pInputTextarea
-      [(ngModel)]="property"
-      [autoResize]="autoResize"
-    ></textarea>
+    <div class="row">
+      <div class="col-6">
+        <textarea
+          style="min-height: 300px; text-overflow: ellipsis"
+          [rows]="5"
+          [cols]="30"
+          pInputTextarea
+          [(ngModel)]="property"
+          [autoResize]="autoResize"
+        ></textarea>
+      </div>
+      <div class="col-3 issue-detail-card">
+        <div class="status">
+          <p class="status-one">Status</p>
+          <div class="status-dropdown dialog-dropdown">
+            <p-dropdown
+              [options]="statusOptions"
+              [(ngModel)]="statusModel"
+              optionLabel="value"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="assignee">
+          <p class="assignee-one">Assignee</p>
+          <div class="assignee-dropdown dialog-dropdown">
+            <p-dropdown
+              [options]="countries"
+              [(ngModel)]="selectedCountry"
+              optionLabel="value"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="priority">
+          <p class="priority-one">Priority</p>
+          <div class="priority-dropdown dialog-dropdown">
+            <p-dropdown
+              [options]="priorityOptions"
+              [(ngModel)]="selectedPriority"
+              optionLabel="value"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div>
       <button

@@ -4,9 +4,15 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Issue } from 'src/assets/interfaces/Project';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, SelectItem } from 'primeng/api';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -20,7 +26,7 @@ import { User } from 'src/app/shared/interfacrs/user.model';
   selector: 'app-board',
   templateUrl: './board.component.html',
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, AfterViewInit {
   public title = 'Design System';
 
   public autoResize: boolean = true;
@@ -45,6 +51,29 @@ export class BoardComponent implements OnInit {
   public totalArr: Issue[] = [];
 
   public terms$ = new Subject<string>();
+  public isCollapsed: boolean = false;
+
+  /**
+   * Dropdowns
+   */
+  public statusOptions: SelectItem[] = [
+    { label: 'To Do', value: StoryStatus.TODO },
+    { label: 'In Progress', value: StoryStatus.IN_PROGRESS },
+    { label: 'Functional Review', value: StoryStatus.FUNCTIONAL_REVIEW },
+    { label: 'Done', value: StoryStatus.DONE },
+  ];
+
+  public priorityOptions: SelectItem[] = [
+    { label: 'Low', value: 'Low' },
+    { label: 'High', value: 'High' },
+    { label: 'Medium', value: 'Medium' },
+  ]
+
+  public countries: SelectItem[] = [{label:'Unassigned', value: 'Unassigned'}];
+
+  public statusModel: string = '';
+  public selectedCountry!: User;
+  public selectedPriority: string = ''; 
 
   /**
    * Dialog
@@ -75,11 +104,27 @@ export class BoardComponent implements OnInit {
           avatarUrl: this.appendUrl(index),
         });
       });
+      this.userAvatarList.forEach((user) => {
+        this.countries.push({
+          label: user.firstName + ' ' + user.lastName,
+          value: user.firstName + ' ' + user.lastName,
+        });
+      });
     });
   }
 
   public openDialog() {
     this.displayModal = true;
+  }
+
+  public fetchAvatarFromAssignee(assignee: string): any {
+    let url;
+    this.userAvatarList.forEach((user: User) => {
+      if (user.firstName && assignee.includes(user.firstName)) {
+        url = user.avatarUrl;
+      }
+    });
+    return url;
   }
 
   public appendUrl(index: number): string {
@@ -96,6 +141,23 @@ export class BoardComponent implements OnInit {
       return 'assets/images/avatar4.png';
     } else {
       return 'assets/images/avatar4.png';
+    }
+  }
+
+  public getPriority(priority: string) {
+    switch (priority) {
+      case 'High': {
+        return 'High';
+      }
+      case 'Low': {
+        return 'Low';
+      }
+      case 'Medium': {
+        return 'Medium';
+      }
+      default: {
+        return '';
+      }
     }
   }
 
@@ -127,21 +189,17 @@ export class BoardComponent implements OnInit {
   }
 
   public generateList(res: Issue[]) {
-    this.toDo = res.filter((result) => result.status === StoryType.TODO);
+    this.toDo = res.filter((result) => result.status === StoryStatus.TODO);
     this.functionalReview = res.filter(
-      (result) => result.status === StoryType.FUNCTIONAL_REVIEW
+      (result) => result.status === StoryStatus.FUNCTIONAL_REVIEW
     );
     this.inProgress = res.filter(
-      (result) => result.status === StoryType.IN_PROGRESS
+      (result) => result.status === StoryStatus.IN_PROGRESS
     );
-    // this.qa = res.filter((result) => result.status === StoryType.QA);
-    // this.blocked = res.filter(
-    //   (result) => result.status === StoryType.BLOCKED
-    // );
-    this.done = res.filter((result) => result.status === StoryType.DONE);
+    this.done = res.filter((result) => result.status === StoryStatus.DONE);
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
         filter(Boolean),
@@ -160,7 +218,7 @@ export class BoardComponent implements OnInit {
       .subscribe();
   }
 
-  drop(event: any) {
+  public drop(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -170,30 +228,22 @@ export class BoardComponent implements OnInit {
     } else {
       let x = event.previousContainer.data[event.previousIndex];
       switch (event.container.id) {
-        case StoryType.TODO: {
-          x.status = StoryType.TODO;
+        case StoryStatus.TODO: {
+          x.status = StoryStatus.TODO;
           break;
         }
-        case StoryType.DONE: {
-          x.status = StoryType.DONE;
+        case StoryStatus.DONE: {
+          x.status = StoryStatus.DONE;
           break;
         }
-        case StoryType.FUNCTIONAL_REVIEW: {
-          x.status = StoryType.FUNCTIONAL_REVIEW;
+        case StoryStatus.FUNCTIONAL_REVIEW: {
+          x.status = StoryStatus.FUNCTIONAL_REVIEW;
           break;
         }
-        case StoryType.IN_PROGRESS: {
-          x.status = StoryType.IN_PROGRESS;
+        case StoryStatus.IN_PROGRESS: {
+          x.status = StoryStatus.IN_PROGRESS;
           break;
         }
-        // case StoryType.QA: {
-        //   x.status = StoryType.QA;
-        //   break;
-        // }
-        // case StoryType.BLOCKED: {
-        //   x.status = StoryType.BLOCKED;
-        //   break;
-        // }
       }
       transferArrayItem(
         event.previousContainer.data,
@@ -205,12 +255,21 @@ export class BoardComponent implements OnInit {
       this.issueService.editIssues(x.id, x).subscribe((res) => {});
     }
   }
+
+  public updateStyleForNav(event: boolean) {
+    this.isCollapsed = event;
+  }
 }
-export enum StoryType {
+export enum StoryStatus {
   TODO = 'To Do',
   FUNCTIONAL_REVIEW = 'Functional Review',
   DONE = 'Done',
   IN_PROGRESS = 'In Progress',
-  // QA = 'QA',
-  // BLOCKED = 'BLOCKED',
+}
+
+export enum StoryType {
+  Story = 'story',
+  Bug = 'bug',
+  Task = 'task',
+  Spike = 'spike',
 }

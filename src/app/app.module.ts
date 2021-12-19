@@ -21,6 +21,7 @@ import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
+import {DropdownModule} from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     DialogModule,
     BrowserModule,
     ButtonModule,
+    DropdownModule,
     InputTextareaModule,
     HttpClientModule,
     BrowserAnimationsModule,
