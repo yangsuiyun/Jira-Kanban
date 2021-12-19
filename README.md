@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
-![image](https://github.com/officialbidisha/Screenshots/blob/master/screely-1634384548247.png)
+![image](https://github.com/officialbidisha/Screenshots/blob/master/JiraClone.PNG)
 
 ## Development server
 
