@@ -1,5 +1,5 @@
 <app-left-nav (newEvent)="updateStyleForNav($event)"></app-left-nav>
-
+<p-toast></p-toast>
 <div
   class="content-section implementation board"
   [ngClass]="{ collapsed: isCollapsed == true }"
@@ -35,7 +35,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of toDo" cdkDrag>
-              <div class="issue-wrap" (click)="openDialog()">
+              <div class="issue-wrap" (click)="openDialog(item)">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -107,7 +107,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of inProgress" cdkDrag>
-              <div class="issue-wrap" (click)="openDialog()">
+              <div class="issue-wrap" (click)="openDialog(item)">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -179,7 +179,7 @@
               *ngFor="let item of functionalReview"
               cdkDrag
             >
-              <div class="issue-wrap" (click)="openDialog()">
+              <div class="issue-wrap" (click)="openDialog(item)">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -250,7 +250,7 @@
             (cdkDropListDropped)="drop($event)"
           >
             <div class="example-box" *ngFor="let item of done" cdkDrag>
-              <div class="issue-wrap" (click)="openDialog()">
+              <div class="issue-wrap" (click)="openDialog(item)">
                 <div class="issue">
                   <p class="text-dark">{{ item.title }}</p>
                   <div class="flex-items">
@@ -322,10 +322,10 @@
                   <span class="story">
                     <i class="pi pi-bookmark-fill"></i>
                   </span>
-                  <span class="with-padding">Story-2021</span>
+                  <span class="with-padding">{{dialogItem.type}}-{{dialogItem.id.substring(3,7)}}</span>
                   <span class="feedback-delete">
                     <span class="delete">
-                      <i class="pi pi-trash"></i>
+                      <i class="pi pi-trash" style="cursor: pointer;" (click)="deleteIssue()"></i>
                     </span>
                     <a
                       target="_blank"
@@ -343,7 +343,7 @@
             </div>
           </div>
         </div>
-        <h2>Angular Spotify</h2>
+        <h2>{{selectedTitle}}</h2>
       </div>
     </ng-template>
 
@@ -365,7 +365,7 @@
           <div class="status-dropdown dialog-dropdown">
             <p-dropdown
               [options]="statusOptions"
-              [(ngModel)]="statusModel"
+              [(ngModel)]="selectedStatus"
               optionLabel="value"
             ></p-dropdown>
           </div>
@@ -375,7 +375,7 @@
           <div class="assignee-dropdown dialog-dropdown">
             <p-dropdown
               [options]="countries"
-              [(ngModel)]="selectedCountry"
+              [(ngModel)]="selectedAssignee"
               optionLabel="value"
               [showClear]="true"
             ></p-dropdown>
@@ -394,22 +394,24 @@
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       <button
         pButton
         pRipple
         type="button"
         label="Save"
         class="p-button-raised"
+        
       ></button>
-    </div>
+    </div> -->
 
     <ng-template pTemplate="footer">
       <p-button
         icon="pi pi-check"
         (click)="displayModal = false"
-        label="Ok"
+        label="Save"
         styleClass="p-button-text"
+        (click)="saveIssueDetail()"
       ></p-button>
     </ng-template>
   </p-dialog>

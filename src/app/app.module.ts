@@ -14,7 +14,7 @@ import { BoardComponent } from './pages/board/board.component';
 import {CardModule} from 'primeng/card';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-import {MenuItem} from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { AvatarsWidgetComponent } from './layout/avatars-widget/avatars-widget.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {DialogModule} from 'primeng/dialog';
@@ -22,6 +22,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
+import {ToastModule} from 'primeng/toast';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,12 +43,13 @@ import {DropdownModule} from 'primeng/dropdown';
     DropdownModule,
     InputTextareaModule,
     HttpClientModule,
+    ToastModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule
 
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

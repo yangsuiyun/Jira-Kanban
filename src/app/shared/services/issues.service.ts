@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Issue } from 'src/assets/interfaces/Project';
 import { User } from '../interfacrs/user.model';
@@ -56,5 +56,13 @@ export class IssuesService {
         data:userNameList
       }
     })
+  }
+
+  public deleteIssueFromList(id: string):Observable<HttpStatusCode>{
+    return this.http.delete<any>(this.baseUrl+'Issue/'+id, this.requestOptions)
+  }
+
+  public editIssueById(id:string, body:Issue):Observable<HttpStatusCode>{
+    return this.http.post<any>(this.baseUrl+'Issue/'+id, body, this.requestOptions);
   }
 }

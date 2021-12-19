@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Issue } from 'src/assets/interfaces/Project';
-import { MenuItem, SelectItem } from 'primeng/api';
+import { MenuItem, MessageService, SelectItem } from 'primeng/api';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -22,6 +22,7 @@ import {
   tap,
 } from 'rxjs';
 import { User } from 'src/app/shared/interfacrs/user.model';
+import { HttpStatusCode } from '@angular/common/http';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -67,20 +68,27 @@ export class BoardComponent implements OnInit, AfterViewInit {
     { label: 'Low', value: 'Low' },
     { label: 'High', value: 'High' },
     { label: 'Medium', value: 'Medium' },
-  ]
+  ];
 
-  public countries: SelectItem[] = [{label:'Unassigned', value: 'Unassigned'}];
+  public countries: SelectItem[] = [
+    { label: 'Unassigned', value: 'Unassigned' },
+  ];
 
-  public statusModel: string = '';
-  public selectedCountry!: User;
-  public selectedPriority: string = ''; 
+  public selectedStatus!: any;
+  public selectedAssignee!: any;
+  public selectedPriority!: any;
+  public dialogItem!: any;
 
   /**
    * Dialog
    */
   public displayModal: boolean = false;
+  public selectedTitle: string = '';
 
-  constructor(private issueService: IssuesService) {}
+  constructor(
+    private issueService: IssuesService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     this.items = [
@@ -88,6 +96,15 @@ export class BoardComponent implements OnInit, AfterViewInit {
       { label: 'Jira' },
       { label: 'Design System' },
     ];
+
+    this.populateMemberIssues();
+  }
+
+  public populateMemberIssues() {
+    this.userAvatarList = [];
+    this.countries = [];
+    this.countries = [{ label: 'Unassigned', value: 'Unassigned' }];
+    this.totalArr = [];
     this.issueService.getIssues().subscribe((res) => {
       this.totalArr = res;
       this.generateList(res);
@@ -113,10 +130,41 @@ export class BoardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public openDialog() {
+  public openDialog(item: any) {
+    this.dialogItem = item;
+    this.property = item.description;
+    this.selectedTitle = item.title;
+    this.selectedPriority = { label: item.priority, value: item.priority };
+    this.selectedAssignee = { label: item.assignee, value: item.assignee };
+    this.selectedStatus = { label: item.status, value: item.status };
     this.displayModal = true;
   }
 
+  public saveIssueDetail() {
+    let dialogItem = {
+      ...this.dialogItem,
+      status: this.selectedStatus.value,
+      proiority: this.selectedPriority.value,
+      assignee: this.selectedAssignee.value,
+    };
+    this.issueService
+      .editIssueById(dialogItem.id, dialogItem)
+      .subscribe((res) => {
+        if (res) {
+          this.populateMemberIssues();
+          this.messageService.add({
+            severity: 'success',
+            summary: `The issue ${dialogItem.title} is modified`,
+          });
+          this.displayModal=false;
+        }
+      });
+  }
+  /**
+   * Fetch avatar image from assignee for card display
+   * @param assignee
+   * @returns
+   */
   public fetchAvatarFromAssignee(assignee: string): any {
     let url;
     this.userAvatarList.forEach((user: User) => {
@@ -197,6 +245,25 @@ export class BoardComponent implements OnInit, AfterViewInit {
       (result) => result.status === StoryStatus.IN_PROGRESS
     );
     this.done = res.filter((result) => result.status === StoryStatus.DONE);
+  }
+
+  /**
+   * Delete issue
+   */
+  public deleteIssue() {
+    this.issueService
+      .deleteIssueFromList(this.dialogItem.id)
+      .subscribe((res) => {
+        if (res) {
+          this.populateMemberIssues();
+          this.messageService.add({
+            severity: 'success',
+            summary: `Issue - ${this.dialogItem.title} is deleted`,
+            detail: 'Message Content',
+          });
+          this.displayModal = false;
+        }
+      });
   }
 
   public ngAfterViewInit(): void {
