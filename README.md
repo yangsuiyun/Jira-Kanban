@@ -8,7 +8,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Before you run `ng-serve`, please take the pull of the backend code from `https://github.com/officialbidisha/Kanban-backend` and run the code.
+Before you run `ng-serve`, please take the pull of the backend code from `https://github.com/officialbidisha/Kanban-backend` and run the code on localhost:8080.
 
 ## Code scaffolding
 
