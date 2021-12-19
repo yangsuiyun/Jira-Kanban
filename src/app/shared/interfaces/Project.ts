@@ -1,4 +1,5 @@
-import { StoryStatus as StoryStatus, StoryType } from "src/app/pages/board/board.component";
+import { StoryStatus } from "../enums/StoryStatus";
+import { StoryType } from "../enums/StoryType";
 
 export interface Issue{
     id: string;

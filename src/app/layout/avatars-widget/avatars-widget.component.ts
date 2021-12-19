@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { User } from 'src/app/shared/interfacrs/user.model';
+import { User } from 'src/app/shared/interfaces/user.model';
 
 @Component({
   selector: 'app-avatars-widget',

@@ -11,7 +11,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Issue } from 'src/assets/interfaces/Project';
+import { Issue } from 'src/app/shared/interfaces/Project';
 import { MenuItem, MessageService, SelectItem } from 'primeng/api';
 import {
   debounceTime,
@@ -21,8 +21,8 @@ import {
   Subject,
   tap,
 } from 'rxjs';
-import { User } from 'src/app/shared/interfacrs/user.model';
-import { HttpStatusCode } from '@angular/common/http';
+import { User } from 'src/app/shared/interfaces/user.model';
+import { StoryStatus } from 'src/app/shared/enums/StoryStatus';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -100,6 +100,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.populateMemberIssues();
   }
 
+  /**
+   * Populate member from issues
+   * @param void
+   * @returns void
+   */
   public populateMemberIssues() {
     this.userAvatarList = [];
     this.countries = [];
@@ -130,6 +135,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Opens dialog
+   * @param item 
+   */
   public openDialog(item: any) {
     this.dialogItem = item;
     this.property = item.description;
@@ -140,7 +149,12 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.displayModal = true;
   }
 
-  public saveIssueDetail() {
+  /**
+   * Save issue based on id
+   * @param void
+   * @returns void
+   */
+  public saveIssueDetail() : void{
     let dialogItem = {
       ...this.dialogItem,
       status: this.selectedStatus.value,
@@ -160,6 +174,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
   /**
    * Fetch avatar image from assignee for card display
    * @param assignee
@@ -327,16 +342,5 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.isCollapsed = event;
   }
 }
-export enum StoryStatus {
-  TODO = 'To Do',
-  FUNCTIONAL_REVIEW = 'Functional Review',
-  DONE = 'Done',
-  IN_PROGRESS = 'In Progress',
-}
 
-export enum StoryType {
-  Story = 'story',
-  Bug = 'bug',
-  Task = 'task',
-  Spike = 'spike',
-}
+
